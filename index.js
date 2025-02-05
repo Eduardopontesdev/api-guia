@@ -1,4 +1,4 @@
-import express, { json } from "express";
+import express from "express";
 import cors from 'cors';
 import { PrismaClient } from "@prisma/client";
 
@@ -11,7 +11,7 @@ app.use(cors());
 
 app.post("/contatos", async (req, res) => {
   try {
-    await prisma.contatos.create({
+    const contato = await prisma.contatos.create({
       data: {
         nome: req.body.nome,
         telefone: req.body.telefone,
@@ -21,8 +21,9 @@ app.post("/contatos", async (req, res) => {
         premiumUntil: req.body.premiumUntil || null,
       },
     });
-    res.status(201).json(req.body);
+    res.status(201).json(contato);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Erro ao criar contato" });
   }
 });
@@ -30,7 +31,7 @@ app.post("/contatos", async (req, res) => {
 app.put("/contatos/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id, 10); // Converte o ID para número
-    await prisma.contatos.update({
+    const contato = await prisma.contatos.update({
       where: {
         id: id,
       },
@@ -43,21 +44,24 @@ app.put("/contatos/:id", async (req, res) => {
         premiumUntil: req.body.premiumUntil,
       },
     });
-    res.status(201).json(req.body);
+    res.status(200).json(contato);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Erro ao atualizar contato" });
   }
 });
 
 app.delete('/contatos/:id', async (req, res) => {
   try {
+    const id = parseInt(req.params.id, 10); // Converte o ID para número
     await prisma.contatos.delete({
       where: {
-        id: req.params.id
+        id: id,
       }
     });
-    res.status(200).json({ message: "Usuário deletado com sucesso!" });
+    res.status(200).json({ message: "Contato deletado com sucesso!" });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Erro ao deletar contato" });
   }
 });
@@ -68,9 +72,9 @@ app.get("/contatos", async (req, res) => {
     if (req.query.nome || req.query.telefone || req.query.categoria) {
       contatos = await prisma.contatos.findMany({
         where: {
-          nome: req.query.nome,
-          telefone: req.query.telefone,
-          categoria: req.query.categoria
+          nome: req.query.nome ? { contains: req.query.nome } : undefined,
+          telefone: req.query.telefone ? { contains: req.query.telefone } : undefined,
+          categoria: req.query.categoria ? { contains: req.query.categoria } : undefined,
         }
       });
     } else {
@@ -78,10 +82,10 @@ app.get("/contatos", async (req, res) => {
     }
     res.status(200).json(contatos);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Erro ao buscar contatos" });
   }
 });
-
 
 app.get("/categorias", async (req, res) => {
   try {
@@ -102,12 +106,9 @@ app.get("/categorias", async (req, res) => {
 
     res.status(200).json(categoriasUnicas);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "Erro ao buscar categorias" });
   }
-});
-
-app.get('/', (req, res) => {
-  res.json('Bem vindos a api guia Camocim!');
 });
 
 app.listen(port, () => {
