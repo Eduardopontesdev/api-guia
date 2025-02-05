@@ -29,9 +29,10 @@ app.post("/contatos", async (req, res) => {
 
 app.put("/contatos/:id", async (req, res) => {
   try {
+    const id = parseInt(req.params.id, 10); // Converte o ID para número
     await prisma.contatos.update({
       where: {
-        id: req.params.id,
+        id: id,
       },
       data: {
         nome: req.body.nome,
@@ -64,7 +65,7 @@ app.delete('/contatos/:id', async (req, res) => {
 app.get("/contatos", async (req, res) => {
   try {
     let contatos = [];
-    if (req.query) {
+    if (req.query.nome || req.query.telefone || req.query.categoria) {
       contatos = await prisma.contatos.findMany({
         where: {
           nome: req.query.nome,
@@ -80,6 +81,7 @@ app.get("/contatos", async (req, res) => {
     res.status(500).json({ error: "Erro ao buscar contatos" });
   }
 });
+
 
 app.get("/categorias", async (req, res) => {
   try {
