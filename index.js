@@ -30,7 +30,7 @@ app.post("/contatos", async (req, res) => {
 
 app.put("/contatos/:id", async (req, res) => {
   try {
-    const id = parseInt(req.params.id, 10); // Converte o ID para número
+    const id = req.params.id; // Converte o ID para número
     const contato = await prisma.contatos.update({
       where: {
         id: id,
@@ -53,7 +53,7 @@ app.put("/contatos/:id", async (req, res) => {
 
 app.delete('/contatos/:id', async (req, res) => {
   try {
-    const id = parseInt(req.params.id, 10); // Converte o ID para número
+    const id = req.params.id; // Converte o ID para número
     await prisma.contatos.delete({
       where: {
         id: id,
