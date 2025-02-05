@@ -1,0 +1,32 @@
+{
+  "nome": "Restaurante Sabor do Mar",
+  "telefone": "(88) 3621-7890",
+  "categoria": "Restaurantes",
+  "redesSociais": {
+    "facebook": "https://facebook.com/sabordomarcamocim",
+    "instagram": "https://instagram.com/sabordomarcamocim",
+    "whatsapp": "(88) 98765-4321"
+  },
+  "premium": true,
+  "premiumUntil": "2025-02-04"
+}
+
+
+eduardopontesdev
+
+Edu231441
+
+await prisma.contato.create({
+  data: {
+    nome: "Restaurante Sabor do Mar",
+    telefone: "(88) 3621-7890",
+    categoria: "Restaurantes",
+    redesSociais: {
+      facebook: "https://facebook.com/sabordomarcamocim",
+      instagram: "https://instagram.com/sabordomarcamocim",
+      whatsapp: "(88) 98765-4321",
+    },
+    premium: true,
+    premiumUntil: new Date("2025-02-04"),
+  },
+});
