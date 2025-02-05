@@ -106,9 +106,6 @@ app.get("/categorias", async (req, res) => {
   }
 });
 
-app.get('/', (req, res) => {
-  res.json('Bem vindos a api guia Camocim!');
-});
 
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`);
