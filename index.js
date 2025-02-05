@@ -10,7 +10,7 @@ app.use(express.json());
 
 app.use(cors())
 
-// const port = process.env.PORT || 3001;
+const port = process.env.PORT || 9001;
 
 app.post("/contatos", async (req, res) => {
   await prisma.contatos.create({
@@ -98,8 +98,8 @@ app.get("/categorias", async (req, res) => {
   res.status(200).json(categoriasUnicas);
   });
 
-  app.get('/', (req, res) => {
-    return res.json('Bem vindos a api guia Camocim!')
+  app.get("/", (req, res) => {
+    return res.json({ Message: "Bem vindos a api guia Camocim!"})
   })
 
-app.listen(3000);
+app.listen(port);
