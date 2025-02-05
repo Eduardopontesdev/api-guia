@@ -10,7 +10,7 @@ app.use(express.json());
 
 app.use(cors())
 
-const port = process.env.PORT || 3001;
+// const port = process.env.PORT || 3001;
 
 app.post("/contatos", async (req, res) => {
   await prisma.contatos.create({
