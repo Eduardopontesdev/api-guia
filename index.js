@@ -78,9 +78,6 @@ contatos = await prisma.contatos.findMany({
 
 app.get("/categorias", async (req, res) => {
 
-  
-  
-  
   const categorias = await prisma.contatos.findMany({
     select: {
       categoria: true,
@@ -100,5 +97,9 @@ app.get("/categorias", async (req, res) => {
   
   res.status(200).json(categoriasUnicas);
   });
+
+  app.get('/', (req, res) => {
+    return res.json('Bem vindos a api guia Camocim!')
+  })
 
 app.listen(3000);
